@@ -2,4 +2,4 @@
 
 ## 完成课程
 
-[x] Lab1:MapReduce
+- [x] Lab1:MapReduce
