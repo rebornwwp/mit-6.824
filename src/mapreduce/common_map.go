@@ -10,7 +10,7 @@ import (
 
 func doMap(
 	jobName string, // the name of the MapReduce job
-	mapTask int, // which map task this is
+	mapTask int,    // which map task this is
 	inFile string,
 	nReduce int, // the number of reduce task that will be run ("R" in the paper)
 	mapF func(filename string, contents string) []KeyValue,
@@ -59,7 +59,9 @@ func doMap(
 	//
 
 	contents, err := ioutil.ReadFile(inFile)
-	checkit(err)
+	if err != nil {
+		panic(err)
+	}
 	kvs := mapF(inFile, string(contents))
 	files := make([]*os.File, nReduce)
 	fileEncs := make([]*json.Encoder, nReduce)
@@ -91,10 +93,4 @@ func ihash(s string) int {
 	h := fnv.New32a()
 	h.Write([]byte(s))
 	return int(h.Sum32() & 0x7fffffff)
-}
-
-func checkit(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
