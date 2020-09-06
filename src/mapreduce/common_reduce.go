@@ -56,7 +56,7 @@ func doReduce(
 		fileName := reduceName(jobName, i, reduceTask)
 		imm, err := os.Open(fileName)
 		if err != nil {
-			log.Printf("open immedia file %s failed", fileName)
+			log.Printf("open map temp file: %s failed", fileName)
 			continue
 		}
 		var kv KeyValue

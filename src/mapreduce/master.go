@@ -57,6 +57,7 @@ func newMaster(master string) (mr *Master) {
 
 // Sequential runs map and reduce tasks sequentially, waiting for each task to
 // complete before running the next.
+// 这个是一个顺序执行，方便用户debug
 func Sequential(jobName string, files []string, nreduce int,
 	mapF func(string, string) []KeyValue,
 	reduceF func(string, []string) string,

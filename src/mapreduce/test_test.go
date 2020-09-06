@@ -21,6 +21,13 @@ const (
 // Create input file with N numbers
 // Check if we have N numbers in output file
 
+func TestStringWhere(t *testing.T) {
+	words := strings.Fields("hello world")
+	for _, word := range words {
+		t.Log(word)
+	}
+}
+
 // Split in words
 func MapFunc(file string, value string) (res []KeyValue) {
 	debug("Map %v\n", value)

@@ -58,32 +58,41 @@ func doMap(
 	// Your code here (Part I).
 	//
 
+	// 读取文件
 	contents, err := ioutil.ReadFile(inFile)
 	if err != nil {
 		panic(err)
 	}
+	// 对文件内容进行map
 	kvs := mapF(inFile, string(contents))
+
+	// 创建中间文件，和每个文件对应的json编码器
+	// nReduce个中间文件，nReduce个对应文件的Json编码器
+	encoders := make([]*json.Encoder, nReduce)
 	files := make([]*os.File, nReduce)
-	fileEncs := make([]*json.Encoder, nReduce)
+
 	for i := 0; i < nReduce; i++ {
-		f, err := os.Create(reduceName(jobName, mapTask, i))
+		filename := reduceName(jobName, mapTask, i)
+		f, err := os.Create(filename)
 		if err != nil {
-			log.Printf("create file %s failed.", reduceName(jobName, mapTask, i))
+			log.Printf("create file %s failed", filename)
 		} else {
 			files[i] = f
-			fileEncs[i] = json.NewEncoder(f)
+			encoders[i] = json.NewEncoder(f)
 		}
 	}
 
+	// 将kv对写入到指定的文件中
 	for _, kv := range kvs {
 		i := ihash(kv.Key) % nReduce
-		if fileEncs[i] != nil {
-			if err := fileEncs[i].Encode(&kv); err != nil {
-				log.Printf("wirite %v to file %s failed.", kv, reduceName(jobName, mapTask, i))
+		if encoders[i] != nil {
+			if err = encoders[i].Encode(&kv); err != nil {
+				log.Printf("can not write: %v to file: %s", kv, reduceName(jobName, mapTask, i))
 			}
 		}
 	}
-	// 文件最后一定记着关闭
+
+	// 关闭文件
 	for i := range files {
 		files[i].Close()
 	}
