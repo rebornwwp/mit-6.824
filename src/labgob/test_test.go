@@ -1,9 +1,8 @@
 package labgob
 
-import (
-	"bytes"
-	"testing"
-)
+import "testing"
+
+import "bytes"
 
 type T1 struct {
 	T1int0    int

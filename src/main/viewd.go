@@ -4,13 +4,10 @@ package main
 // see directions in pbc.go
 //
 
-import (
-	"fmt"
-	"os"
-	"time"
-
-	"viewservice"
-)
+import "time"
+import "6.824/viewservice"
+import "os"
+import "fmt"
 
 func main() {
 	if len(os.Args) != 2 {

@@ -11,13 +11,10 @@ package main
 // on Athena, use /tmp/myname-a and /tmp/myname-b
 // instead of a and b.
 
-import (
-	"fmt"
-	"os"
-	"time"
-
-	"lockservice"
-)
+import "time"
+import "6.824/lockservice"
+import "os"
+import "fmt"
 
 func main() {
 	if len(os.Args) == 4 && os.Args[1] == "-p" {
